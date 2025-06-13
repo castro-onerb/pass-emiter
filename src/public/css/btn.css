@@ -1,0 +1,13 @@
+.touch {
+  font-size: 52px;
+  line-height: 62px;
+  gap: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 24px;
+  font-weight: 900;
+  border-radius: 20px;
+  border: none;
+}

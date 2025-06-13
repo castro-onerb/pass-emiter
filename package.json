@@ -1,0 +1,27 @@
+{
+  "name": "pass-emiter",
+  "version": "1.0.0",
+  "description": "Emissor de senha - Deovita",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/castro-onerb/pass-emiter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/castro-onerb/pass-emiter/issues"
+  },
+  "homepage": "www.deovita.com.br",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "electron": "^36.4.0",
+    "postcss": "^8.5.5",
+    "tailwindcss": "^4.1.10"
+  }
+}
