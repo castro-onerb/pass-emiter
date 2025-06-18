@@ -1,0 +1,30 @@
+.cpf-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.cpf-digit {
+  width: 92px;
+  height: 92px;
+  font-size: 42px;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cpf-digit:focus {
+  border-color: var(--color-primary);
+}
+
+.cpf-separator {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 2px;
+  user-select: none;
+}

@@ -1,0 +1,28 @@
+@import './_variables.css';
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9000;
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-spinner {
+  border: 5px solid var(--color-primary);
+  border-bottom-color: transparent;
+  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  animation: spin 1s linear infinite;
+  z-index: 9999;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -9,3 +9,14 @@
   font-weight: 900;
   font-size: 28px;
 }
+
+.legend {
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 22px;
+}

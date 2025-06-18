@@ -2,12 +2,17 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="../../public/css/style.css" rel="stylesheet" />
     <link href="../../public/css/color.css" rel="stylesheet" />
     <link href="../../public/css/text.css" rel="stylesheet" />
+    <link href="../../public/css/modal.css" rel="stylesheet" />
+    <link href="../../public/css/toast.css" rel="stylesheet" />
     <link href="../../public/css/btn.css" rel="stylesheet" />
+
+    <script type="module" src="../../public/js/setup.js"></script>
 
     <title>Emissor de Senha - Deovita</title>
   </head>
@@ -18,7 +23,7 @@
     <div class="container">
       <div class="flex-column gap-1">
         <h1 class="title text-greendark">RETIRE SUA SENHA PARA SER ATENDIDO</h1>
-        <h2 class="subtitle text-greendark">O sua senha aparecerá no painel quando chegar a sua vez</h2>
+        <h2 class="subtitle text-greendark">A sua senha aparecerá no painel quando chegar a sua vez</h2>
       </div>
       <div class="flex-column gap-2 w-full flex-1">
         <div class="flex-column gap-2 justify-stretch flex-1">
@@ -30,10 +35,11 @@
             <img src="../../public/img/icons/person-heart.svg" />
             PRIORIDADE
           </div>
-          <a href="#" class="touch bg-orange text-white w-full flex-1">
+          <a href="./pass-deovita.html" class="touch bg-orange text-white w-full flex-1">
             <img src="../../public/img/icons/deovita-symbol-white.svg" />
             DEOVITA
           </a>
+          <button id="saveButton">Salvar Impressora</button>
         </div>
       </div>
     </div>
@@ -41,6 +47,7 @@
       <img width="200" src="../../public/img/logo-deovita-horizontal-color.png" alt="Logo Deovita - Saúde Inteligente">
     </div>
 
-    <script src="../../public/js/pre-atendimento.js"></script>
+    <script type="module" src="../services/pre-atendimento.js"></script>
+    <script type="module" src="../services/printers.service.js"></script>
   </body>
 </html>

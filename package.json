@@ -2,26 +2,57 @@
   "name": "pass-emiter",
   "version": "1.0.0",
   "description": "Emissor de senha - Deovita",
-  "main": "index.js",
+  "main": "src/main.js",
+  "author": {
+    "name": "Breno Castro",
+    "email": "breno.castro.ofc@gmail.com"
+  },
   "scripts": {
-    "start": "electron ./src/main.js"
+    "start": "electron ./src/main.js",
+    "build": "electron-builder"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/castro-onerb/pass-emiter.git"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
     "url": "https://github.com/castro-onerb/pass-emiter/issues"
   },
-  "homepage": "www.deovita.com.br",
+  "homepage": "https://www.deovita.com.br",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "electron": "^36.4.0",
+    "electron-builder": "^24.13.3",
     "postcss": "^8.5.5",
     "tailwindcss": "^4.1.10"
+  },
+  "build": {
+    "appId": "com.deovita.pass-emiter",
+    "productName": "PassEmiter",
+    "files": [
+      "src/**/*",
+      "app/**/*",
+      "index.js",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "icon": "icon.png"
+    }
+  },
+  "dependencies": {
+    "electron-store": "^10.1.0",
+    "node-thermal-printer": "^4.5.0",
+    "usb": "^2.15.0"
   }
 }

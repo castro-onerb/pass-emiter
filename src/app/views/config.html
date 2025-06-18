@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../public/css/style.css" rel="stylesheet" />
+    <link href="../../public/css/color.css" rel="stylesheet" />
+    <link href="../../public/css/text.css" rel="stylesheet" />
+    <link href="../../public/css/modal.css" rel="stylesheet" />
+    <link href="../../public/css/toast.css" rel="stylesheet" />
+    <link href="../../public/css/btn.css" rel="stylesheet" />
+    <link href="../../public/css/components/field.css" rel="stylesheet" />
+
+    <script type="module" src="../../public/js/setup.js"></script>
+
+    <title>Emissor de senha - configuração</title>
+  </head>
+  <body>
+    <header class="header" style="align-items: center;">
+      <img width="240" src="../../public/img/logo-adolfo-lutz-horizontal-color.png" alt="Logo Adolfo Lutz">
+      <h1 class="title text-greendark">Configurações</h1>
+    </header>
+    <div class="container">
+      <div class="flex-column gap-2">
+        <label class="label text-secondary" for="printers">Selecionar impressora</label>
+        <div class="flex gap-2">
+          <select class="field" name="printers" id="printers"></select>
+          <button class="btn bg-blue text-white" id="savePrinterButton">
+            <img width="24" src="../../public/img/icons/circle-check-regular-white.svg" alt="Confirmar">
+          </button>
+          <button class="btn -small bg-blue text-white" id="printTest">Testar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../services/printers.service.js"></script>
+  </body>
+</html>

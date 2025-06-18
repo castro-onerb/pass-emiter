@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../public/css/style.css" rel="stylesheet" />
+    <link href="../../public/css/color.css" rel="stylesheet" />
+    <link href="../../public/css/text.css" rel="stylesheet" />
+    <link href="../../public/css/components/input-cpf.css" rel="stylesheet" />
+    <link href="../../public/css/components/keyboard-numeric.css" rel="stylesheet" />
+    <link href="../../public/css/modal.css" rel="stylesheet" />
+    <link href="../../public/css/toast.css" rel="stylesheet" />
+    <link href="../../public/css/btn.css" rel="stylesheet" />
+
+    <script type="module">
+      import { ToastSpinner } from './public/js/toast-spinner.js';
+      import { ModalDialog } from './public/js/modal.js';
+
+      ToastSpinner.autoStartUntilLoad();
+      ToastSpinner.setupListeners();
+
+      ModalDialog.setupListeners();
+    </script>
+
+    <title>Emissor de Senha - Deovita</title>
+  </head>
+  <body>
+    <header class="header">
+      <img width="240" src="../../public/img/logo-adolfo-lutz-horizontal-color.png" alt="Logo Adolfo Lutz">
+    </header>
+    <div class="container">
+      <div class="flex-column gap-1">
+        <h1 class="title text-greendark">RETIRE SUA SENHA PARA SER ATENDIDO</h1>
+        <h2 class="subtitle text-greendark">A sua senha aparecerá no painel quando chegar a sua vez</h2>
+      </div>
+      <div class="flex-column gap-2 w-full flex-1">
+        <span class="legend text-greendark">Informe o CPF para continuar</span>
+        <div class="flex-column gap-2 justify-stretch flex-1">
+          <div id="cpf-input" class="cpf-container"></div>
+          <div id="virtual-keyboard" class="vk-container">
+            <div class="vk-row">
+              <button data-key="1">1</button>
+              <button data-key="2">2</button>
+              <button data-key="3">3</button>
+            </div>
+            <div class="vk-row">
+              <button data-key="4">4</button>
+              <button data-key="5">5</button>
+              <button data-key="6">6</button>
+            </div>
+            <div class="vk-row">
+              <button data-key="7">7</button>
+              <button data-key="8">8</button>
+              <button data-key="9">9</button>
+            </div>
+            <div class="vk-row">
+              <button data-key="backspace">←</button>
+              <button data-key="0">0</button>
+              <button data-key="clear">C</button>
+            </div>
+          </div>
+          <div class="flex gap-5" style="max-width: 400px; margin-top: 20px; margin-inline: auto;">
+            <a href="./index.html" class="btn bg-orange text-white w-full flex-1">
+              Voltar
+            </a>
+            <div class="btn bg-blue text-white w-full flex-1">
+              Continuar
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <img width="200" src="../../public/img/logo-deovita-horizontal-color.png" alt="Logo Deovita - Saúde Inteligente">
+    </div>
+
+    <script type="module">
+      import { createCpfInput } from '../../public/js/components/input-cpf.js';
+      import { enableVirtualKeyboard } from '../../public/js/components/virtual-keyboard.js';
+
+      window.addEventListener('DOMContentLoaded', () => {
+        createCpfInput('cpf-input', (cpf) => {
+        });
+        enableVirtualKeyboard('.cpf-digit');
+      });
+    </script>
+    <script type="module" src="../../public/js/pre-atendimento.js"></script>
+  </body>
+</html>
