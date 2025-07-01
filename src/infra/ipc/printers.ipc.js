@@ -95,9 +95,20 @@ export function registerPrinters(win) {
     const isLinux = process.platform === 'linux';
 
     if (isLinux) {
-      execSync(`lp -d ${printerName} -o scaling=100 -o fit-to-page=false -o fitplot=false ${pdfPath}`);
-      printWin.destroy();
-      return 'Impressão enviada via PDF no Linux';
+      return new Promise((resolve, reject) => {
+        printWin.webContents.print({
+          silent: true,
+          deviceName: printerName,
+          printBackground: true
+        }, (success, errorType) => {
+          printWin.destroy();
+          if (!success) reject(new Error(errorType));
+          else resolve('Impressão enviada com sucesso');
+        });
+      });
+      // execSync(`lp -d ${printerName} -o scaling=100 -o fit-to-page=false -o fitplot=false ${pdfPath}`);
+      // printWin.destroy();
+      // return 'Impressão enviada via PDF no Linux';
     } else {
       return new Promise((resolve, reject) => {
         printWin.webContents.print({
