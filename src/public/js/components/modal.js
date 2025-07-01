@@ -1,7 +1,8 @@
 export class ModalDialog {
   static #backdrop = null;
+  static #autoCloseTimeout = null;
 
-  static show({ title = 'Aviso', message = '' } = {}) {
+  static show({ title = '', message = '', type = null, hideCloseButton = false, autoClose = null } = {}) {
     if (this.#backdrop) return;
 
     const backdrop = document.createElement('div');
@@ -18,14 +19,41 @@ export class ModalDialog {
     messageEl.classList.add('modal-message');
     messageEl.textContent = message;
 
-    const closeBtn = document.createElement('button');
-    closeBtn.classList.add('modal-button');
-    closeBtn.textContent = 'Fechar';
-    closeBtn.addEventListener('click', () => this.hide());
+    if (type) {
+      const imgEl = document.createElement('img');
+      imgEl.classList.add('modal-icon');
+      imgEl.alt = type;
+
+      try {
+        const basePath = window.appPath?.getBasePath?.();
+        imgEl.src = basePath
+          ? `file://${basePath}/../../public/img/icons/${type}.gif`
+          : `img/modal/${type}.gif`;
+        imgEl.height = 240;
+        imgEl.style.marginInline = 'auto';
+      } catch {
+        imgEl.src = `img/modal/${type}.gif`;
+      }
+
+      modal.appendChild(imgEl);
+    }
+
+    if (!hideCloseButton) {
+      const closeBtn = document.createElement('button');
+      closeBtn.classList.add('modal-button');
+      closeBtn.textContent = 'Fechar';
+      closeBtn.addEventListener('click', () => this.hide());
+      modal.appendChild(closeBtn);
+    }
+
+    if (autoClose && typeof autoClose === 'number') {
+      this.#autoCloseTimeout = setTimeout(() => {
+        this.hide();
+      }, autoClose * 1000);
+    }
 
     modal.appendChild(titleEl);
     modal.appendChild(messageEl);
-    modal.appendChild(closeBtn);
     backdrop.appendChild(modal);
     document.body.appendChild(backdrop);
 
@@ -34,6 +62,11 @@ export class ModalDialog {
 
   static hide() {
     if (!this.#backdrop) return;
+    if (this.#autoCloseTimeout) {
+      clearTimeout(this.#autoCloseTimeout);
+      this.#autoCloseTimeout = null;
+    }
+
     this.#backdrop.remove();
     this.#backdrop = null;
   }

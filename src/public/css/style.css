@@ -9,8 +9,8 @@
 }
 
 body {
-  background-color: #EDF6F1;
-  padding: 40px;
+  background-color: #FFFFFF;
+  padding: 32px;
   -webkit-user-drag: none;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
@@ -20,7 +20,7 @@ body {
   min-height: 100dvh;
   overflow: hidden;
   user-select: none;
-  gap: 12px;
+  gap: 48px;
   cursor: none !important;
 }
 
@@ -29,9 +29,9 @@ input, textarea {
 }
 
 .header {
-  padding: 16px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .header:has(* + *) {
@@ -41,12 +41,11 @@ input, textarea {
 
 .container {
   width: 100%;
-  padding: 16px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
   flex: 1;
 }
 
@@ -85,6 +84,10 @@ input, textarea {
 
 .gap-2 {
   gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
 }
 
 .gap-5 {

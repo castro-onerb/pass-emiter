@@ -2,7 +2,6 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="../../public/css/style.css" rel="stylesheet" />
@@ -27,11 +26,11 @@
       </div>
       <div class="flex-column gap-2 w-full flex-1">
         <div class="flex-column gap-2 justify-stretch flex-1">
-          <div class="touch bg-blue text-white w-full flex-1" data-type="NORMAL" name="touch">
+          <div class="touch bg-blue text-white w-full flex-1" data-type="N" name="touch">
             <img src="../../public/img/icons/person.svg" />
             NORMAL
           </div>
-          <div class="touch bg-red text-white w-full flex-1" data-type="PRIORIDADE" name="touch">
+          <div class="touch bg-red text-white w-full flex-1" data-type="P" name="touch">
             <img src="../../public/img/icons/person-heart.svg" />
             PRIORIDADE
           </div>
@@ -39,7 +38,6 @@
             <img src="../../public/img/icons/deovita-symbol-white.svg" />
             DEOVITA
           </a>
-          <button id="saveButton">Salvar Impressora</button>
         </div>
       </div>
     </div>
@@ -47,6 +45,7 @@
       <img width="200" src="../../public/img/logo-deovita-horizontal-color.png" alt="Logo Deovita - Saúde Inteligente">
     </div>
 
+    <script type="module" src="../util/isOnline.js"></script>
     <script type="module" src="../services/pre-atendimento.js"></script>
     <script type="module" src="../services/printers.service.js"></script>
   </body>

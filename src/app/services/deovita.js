@@ -22,9 +22,6 @@ Array.from(touch).forEach((e) => {
         DN: 'NORMAL',
         DP: 'PRIORIDADE',
       };
-      
-      const fila_id = (prefix === 'DN' || prefix === 'DP') ? 2 : 7;
-      const guiche = (prefix === 'DN' || prefix === 'DP') ? null : 'Balcão: Pré-atendimento';
 
       const prioridade = typeMap[prefix] ?? 'NORMAL';
 
@@ -35,18 +32,19 @@ Array.from(touch).forEach((e) => {
         },
         body: JSON.stringify({
           senha: ticket,
-          guiche,
+          guiche: null,
           setor_id: 1,
+          setor: 'Guichê Deovita',
           prioridade: prioridade,
           empresa_id: 1,
-          fila_id,
+          fila_id: 2
         }),
       });
 
       const content = generateTicketHTML({
         code: ticket,
         type: prioridade,
-        origin: guiche ?? 'Guichês: Deovita',
+        origin: 'Guichê Deovita',
         qrcodeBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAEiAQAAAAB1xeIbAAAB50lEQVR4nO2aTc6bMBiEn7dYYmmk7wA9irlZ1ZuZo+QAlWAZyWi6MOb7q9ouSp2AvYgEeaSMgAzDO5j485q+/AUEjWrUE1GLbWtcHNsHUPa6WrouQXWSJIG/myKr5a+CJGmup+sa1HZ5L73Mvib0fYD8hxir6jo35d5u+LsJVgg3l+rquiJlNnSy0affUv/yF69OSUrA4iDMxe/xkmJVXeen1hxogE6w9MpnYTIzs6GerrNT9uHZyvAzBt1b02nPVkdRr4F+WI1wc+RkOQ1g49Ly/VEUOdtHn1D0kjR3UvQS+IQinRQfVf1zUw6WAcKtl4WbIVizDwlWLMwvVXRdgXLgUw75moYuWYjbHcAABKmKritQm7fjJcIMhLnLxpMzZragR1X/3FSO9tn0VQ67IuXYN78/lMpZ3mFjHqPts7R5Nfs2V9N1esqBFxYEAuVob7CaJmt+fyi1+33KVl/8HoAtbTbPOYYqVl9m9Zv9787f7rWHUq+9FZ2YrM8h08bKuk5PlWtcUimqOpG7rLl5zn+gtt6K1XJvFVnLCLOqrnNT7tOexSXD/3BiecHwdXRdjlr6fYIGTMNqim2OeRj13u/Tu7cTygsMze+Po/beaq+sAAi627b5yOqfl/rYW/1ytd6qUSejfgK7ajEQOaU3YwAAAABJRU5ErkJggg=='
       });
 
