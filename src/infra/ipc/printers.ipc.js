@@ -95,7 +95,7 @@ export function registerPrinters(win) {
     const isLinux = process.platform === 'linux';
 
     if (isLinux) {
-      execSync(`lp -d ${printerName} -o scaling=100 -o fit-to-page=false -o fitplot=false ${pdfPath}`);
+      execSync(`lp -d ${printerName} -o scaling=300 -o fit-to-page=false -o fitplot=false ${pdfPath}`);
       printWin.destroy();
       return 'Impressão enviada via PDF no Linux';
     } else {
