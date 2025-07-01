@@ -85,7 +85,6 @@ export function registerPrinters(win) {
     });
 
     await printWin.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`);
-    await printWin.webContents.setZoomFactor(2);
 
     const tmpDir = os.tmpdir();
     const pdfPath = path.join(tmpDir, 'ticket.pdf');
