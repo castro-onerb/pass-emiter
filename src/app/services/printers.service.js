@@ -86,17 +86,17 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           width: 210mm;
           height: 297mm;
         }
-        body { font-family: Arial, sans-serif; text-align: center; transform: scale(5) }
+        body { font-family: Arial, sans-serif; text-align: center; }
         h1 { font-size: 32px; margin: 0; }
         p { margin: 4px 0; }
         .marketing-deovita { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-block: 10px; }
         img.qrcode { width: 100px; margin-top: 10px; }
         .ticket {
-          width: 210mm;
-          height: 297mm;
+          width: 65mm;
+          height: 200mm;
           box-sizing: border-box;
           border: 1px dashed #ccc;
-          s
+          transform: scale(3);
         }
       </style>
     </head>
