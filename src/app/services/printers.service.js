@@ -96,7 +96,7 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           height: 200mm;
           box-sizing: border-box;
           border: 1px dashed #ccc;
-          transform: scale(1);
+          transform: scale(1.5);
         }
       </style>
     </head>
