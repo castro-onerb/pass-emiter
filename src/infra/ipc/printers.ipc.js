@@ -81,7 +81,7 @@ export function registerPrinters(win) {
 
     const pdfData = await printWin.webContents.printToPDF({
       printBackground: true,
-      scaleFactor: 2
+      scaleFactor: 1
     });
 
     await printWin.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`);
