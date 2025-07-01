@@ -86,7 +86,7 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           width: 210mm;
           height: 297mm;
         }
-        body { font-family: Arial, sans-serif; text-align: center; }
+        body { font-family: Arial, sans-serif; text-align: center; transform: scale(5) }
         h1 { font-size: 32px; margin: 0; }
         p { margin: 4px 0; }
         .marketing-deovita { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-block: 10px; }
@@ -96,6 +96,7 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           height: 297mm;
           box-sizing: border-box;
           border: 1px dashed #ccc;
+          s
         }
       </style>
     </head>
