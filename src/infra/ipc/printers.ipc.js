@@ -81,7 +81,7 @@ export function registerPrinters(win) {
 
     const pdfData = await printWin.webContents.printToPDF({
       printBackground: true,
-      scaleFactor: 100
+      scaleFactor: 200
     });
 
     await printWin.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`);
@@ -99,7 +99,7 @@ export function registerPrinters(win) {
           silent: true,
           deviceName: printerName,
           printBackground: true,
-          scaleFactor: 100
+          scaleFactor: 200
         }, (success, errorType) => {
           printWin.destroy();
           if (!success) reject(new Error(errorType));
@@ -115,7 +115,7 @@ export function registerPrinters(win) {
           silent: true,
           deviceName: printerName,
           printBackground: true,
-          scaleFactor: 100
+          scaleFactor: 200
         }, (success, errorType) => {
           printWin.destroy();
           if (!success) reject(new Error(errorType));
