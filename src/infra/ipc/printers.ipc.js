@@ -61,11 +61,11 @@ export function registerPrinters(win) {
     const dpi = 300;
     const mmToInches = mm => mm / 25.4;
 
-    const paperWidthMM = 65;
+    const paperWidthMM = 30;
     const paperHeightMM = 200;
 
-    const paperWidthPx = Math.round(mmToInches(paperWidthMM));
-    const paperHeightPx = Math.round(mmToInches(paperHeightMM));
+    const paperWidthPx = Math.round(mmToInches(paperWidthMM) * dpi);
+    const paperHeightPx = Math.round(mmToInches(paperHeightMM) * dpi);
 
     console.log('Window size for 201dpi rendering:', paperWidthPx, paperHeightPx);
 
