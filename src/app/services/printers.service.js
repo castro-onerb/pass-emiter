@@ -86,7 +86,6 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           padding: 0;
           width: 65mm;
           height: 200mm;
-          transform: scale(2);
         }
         body { font-family: Arial, sans-serif; text-align: center; }
         h1 { font-size: 32px; margin: 0; }
