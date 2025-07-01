@@ -58,10 +58,10 @@ export function registerPrinters(win) {
     const printerName = Settings.get('defaultPrinter');
     if (!printerName) throw new Error('Impressora padrão não configurada');
 
-    const dpi = 300;
+    const dpi = 201;
     const mmToInches = mm => mm / 25.4;
 
-    const paperWidthMM = 30;
+    const paperWidthMM = 65;
     const paperHeightMM = 200;
 
     const paperWidthPx = Math.round(mmToInches(paperWidthMM) * dpi);
@@ -81,7 +81,7 @@ export function registerPrinters(win) {
 
     const pdfData = await printWin.webContents.printToPDF({
       printBackground: true,
-      scaleFactor: 2
+      scaleFactor: 5
     });
 
     await printWin.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`);
@@ -98,7 +98,8 @@ export function registerPrinters(win) {
         printWin.webContents.print({
           silent: true,
           deviceName: printerName,
-          printBackground: true
+          printBackground: true,
+          scaleFactor: 5
         }, (success, errorType) => {
           printWin.destroy();
           if (!success) reject(new Error(errorType));
@@ -113,7 +114,8 @@ export function registerPrinters(win) {
         printWin.webContents.print({
           silent: true,
           deviceName: printerName,
-          printBackground: true
+          printBackground: true,
+          scaleFactor: 5
         }, (success, errorType) => {
           printWin.destroy();
           if (!success) reject(new Error(errorType));
