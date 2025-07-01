@@ -58,7 +58,7 @@ export function registerPrinters(win) {
     const printerName = Settings.get('defaultPrinter');
     if (!printerName) throw new Error('Impressora padrão não configurada');
 
-    const dpi = 201;
+    const dpi = 300;
     const mmToInches = mm => mm / 25.4;
 
     const paperWidthMM = 65;
