@@ -92,8 +92,8 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
         .marketing-deovita { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-block: 10px; }
         img.qrcode { width: 100px; margin-top: 10px; }
         .ticket {
-          width: 65mm;
-          height: 200mm;
+          width: 210mm;
+          height: 297mm;
           box-sizing: border-box;
           border: 1px dashed #ccc;
         }
