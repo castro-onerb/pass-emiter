@@ -59,13 +59,13 @@ export function registerPrinters(win) {
     if (!printerName) throw new Error('Impressora padrão não configurada');
 
     const dpi = 300;
-    const mmToInches = mm => mm / 50;
+    const mmToInches = mm => mm / 25.4;
 
     const paperWidthMM = 65;
     const paperHeightMM = 200;
 
-    const paperWidthPx = Math.round(mmToInches(paperWidthMM) * dpi);
-    const paperHeightPx = Math.round(mmToInches(paperHeightMM) * dpi);
+    const paperWidthPx = Math.round(mmToInches(paperWidthMM));
+    const paperHeightPx = Math.round(mmToInches(paperHeightMM));
 
     console.log('Window size for 201dpi rendering:', paperWidthPx, paperHeightPx);
 
