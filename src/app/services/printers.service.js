@@ -85,13 +85,12 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           padding: 0;
         }
         body { font-family: Arial, sans-serif; text-align: center; }
-        h1 { font-size: 32px; margin: 0; }
-        p { margin: 4px 0; }
+        h1 { font-size: 48px; margin: 0; }
+        p { font-size: 24px; margin: 4px 0; }
         .marketing-deovita { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-block: 10px; }
-        img.qrcode { width: 100px; margin-top: 10px; }
+        img.qrcode { width: 180px; margin-top: 10px; }
         .ticket {
           box-sizing: border-box;
-          border: 1px dashed #ccc;
         }
       </style>
     </head>
