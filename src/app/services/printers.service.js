@@ -78,6 +78,7 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
           width: 65mm;
           height: 200mm;
           margin: 0;
+          transform: scale(2);
         }
         * {
           box-sizing: border-box;
