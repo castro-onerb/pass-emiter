@@ -74,7 +74,8 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
       <meta charset="UTF-8">
       <style>
         @page {
-          size: A4;
+          width: 65mm;
+          height: 200mm;
           margin: 0;
         }
         * {
@@ -83,8 +84,8 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
         html, body {
           margin: 0;
           padding: 0;
-          width: 210mm;
-          height: 297mm;
+          width: 65mm;
+          height: 200mm;
         }
         body { font-family: Arial, sans-serif; text-align: center; }
         h1 { font-size: 32px; margin: 0; }
