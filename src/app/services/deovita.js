@@ -25,7 +25,7 @@ Array.from(touch).forEach((e) => {
 
       const prioridade = typeMap[prefix] ?? 'NORMAL';
 
-      const query = fetch('https://hom.deovita.com.br/breno/deovita/ambulatorio/atendimento/criar_senha_pre_atendimento', {
+      const query = fetch('https://backoffice.deovita.com.br/deovita_fila_pre/ambulatorio/atendimento/criar_senha_pre_atendimento', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
