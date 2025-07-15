@@ -20,7 +20,7 @@ Array.from(touch).forEach((e) => {
       const typeMap = {
         N: 'NORMAL',
         P: 'PRIORIDADE',
-        PS: 'PRIORIDADE ESPECIAL OU URGENTE',
+        PE: 'PRIORIDADE ESPECIAL OU URGENTE',
       };
 
       const fila_id = 666;
@@ -29,7 +29,7 @@ Array.from(touch).forEach((e) => {
 
       const prioridade = typeMap[prefix] ?? 'NORMAL';
 
-      const query = fetch('https://hom.deovita.com.br/breno/deovita/ambulatorio/atendimento/criar_senha_pre_atendimento', {
+      const query = fetch('httPE://hom.deovita.com.br/breno/deovita/ambulatorio/atendimento/criar_senha_pre_atendimento', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
