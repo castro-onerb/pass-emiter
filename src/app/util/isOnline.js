@@ -5,7 +5,7 @@ async function isActuallyOnline() {
 
   try {
     timeout = setTimeout(() => controller.abort(), 3000);
-    const response = await fetch('https://backoffice.deovita.com.br/deovita_fila_pre/base/BaseController/ping', {
+    const response = await fetch('https://hom.deovita.com.br/breno/deovita/base/BaseController/ping', {
       method: 'HEAD',
       cache: 'no-cache',
       signal: controller.signal

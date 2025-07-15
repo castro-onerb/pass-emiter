@@ -9,14 +9,23 @@ const __dirname = path.dirname(__filename);
 
 let mainWindow = null;
 
+const REQUIRED_SETTINGS = ['defaultPrinter', 'fila_id'];
+
+function isAppConfigured() {
+  return REQUIRED_SETTINGS.every((key) => {
+    const value = Settings.get(key);
+    return value !== undefined && value !== null && value !== '';
+  });
+}
+
 const createMainWindow = async () => {
-  const isConfigured = Settings.get('isConfigured') === true;
+  const isConfigured = isAppConfigured();
 
   mainWindow = new BrowserWindow({
-    fullscreen: true,
+    fullscreen: false,
     disableAutoHideCursor: false,
-    resizable: false,
-    autoHideMenuBar: true,
+    resizable: true,
+    autoHideMenuBar: false,
     kiosk: true,
     webPreferences: {
       contextIsolation: true,
@@ -26,7 +35,7 @@ const createMainWindow = async () => {
   });
 
   const pageToLoad = isConfigured
-    ? 'index2.html'
+    ? 'index.html'
     : 'config.html';
 
   registerAllIpc(mainWindow, __dirname);

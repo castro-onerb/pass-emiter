@@ -9,6 +9,10 @@ const Settings = new Store({
     defaultPrinter: {
       type: 'string',
       default: ''
+    },
+    fila_id: {
+      type: 'number',
+      default: 79
     }
   }
 });

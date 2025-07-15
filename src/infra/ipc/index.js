@@ -10,7 +10,7 @@ export function registerAllIpc(win, baseDir) {
 
   ipcMain.handle('app:reloadToMain', () => {
     if (win) {
-      return win.loadFile(path.join(baseDir, 'app/views/index2.html'));
+      return win.loadFile(path.join(baseDir, 'app/views/index.html'));
     }
   });
 }
