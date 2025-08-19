@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../public/css/style.css" rel="stylesheet" />
+    <link href="../../public/css/color.css" rel="stylesheet" />
+    <link href="../../public/css/text.css" rel="stylesheet" />
+    <link href="../../public/css/modal.css" rel="stylesheet" />
+    <link href="../../public/css/toast.css" rel="stylesheet" />
+    <link href="../../public/css/btn.css" rel="stylesheet" />
+    <link href="../../public/css/components/input-cpf.css" rel="stylesheet" />
+    <link href="../../public/css/components//keyboard-numeric.css" rel="stylesheet" />
+
+    <script type="module" src="../../public/js/setup.js"></script>
+
+    <title>Emissor de Senha - Deovita</title>
+  </head>
+  <body>
+    <div class="header">
+      <img width="240" src="../../public/img/logo-adolfo-lutz-horizontal-color.png" alt="Logo Adolfo Lutz">
+      <img width="200" src="../../public/img/logo-deovita-horizontal-color.png" alt="Logo Deovita - Saúde Inteligente">
+    </div>
+
+    <div class="container">
+      <p class="title text-primary">INSIRA O CPF PARA INICIAR O ATENDIMENTO</p>
+      <div class="w-full flex justify-center gap-3">
+        <div id="cpf-container"></div>
+      </div>
+
+      <div id="virtual-keyboard" class="vk-container flex-1">
+        <div class="vk-row">
+          <button data-key="1">1</button>
+          <button data-key="2">2</button>
+          <button data-key="3">3</button>
+        </div>
+        <div class="vk-row">
+          <button data-key="4">4</button>
+          <button data-key="5">5</button>
+          <button data-key="6">6</button>
+        </div>
+        <div class="vk-row">
+          <button data-key="7">7</button>
+          <button data-key="8">8</button>
+          <button data-key="9">9</button>
+        </div>
+        <div class="vk-row"> 
+          <button data-key="backspace">⌫</button>
+          <button data-key="0">0</button>
+          <div class="flex-1 flex gap-2">
+            <button data-key="clear">Limpar</button>
+            <a href="./index.html" data-key="clear">Voltar</a>
+          </div>
+        </div>
+      </div>
+      <div id="priority-buttons" class="hidden w-full flex-1 items-center gap-3 my-6">
+        <div class="touch bg-blue-light text-blue flex-1" data-type="0">
+          <div class="border-blue">N</div>
+          <div>NORMAL</div>
+        </div>
+        <div class="touch bg-orange-light text-orange flex-1" data-type="1">
+          <div class="border-orange">P</div>
+          <div>PRIORIDADE</div>
+        </div>
+        <div class="touch bg-red-light text-red flex-1" data-type="2">
+          <div class="border-red">PE</div>
+          <div>PRIORIDADE ESPECIAL OU URGENTE</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../util/isOnline.js"></script>
+    <script type="module" src="../services/printers.service.js"></script>
+    <script type="module">
+      import { createCpfInput } from '../../public/js/components/input-cpf.js';
+      import { enableVirtualKeyboard } from '../../public/js/components/virtual-keyboard.js';
+      import {
+        buscarPaciente,
+        validarDeovitaPaciente,
+        verificarAtendimentoPendente,
+        validarAtendimentoPendente,
+        iniciarPreAtendimento,
+        validarEticket,
+        finalizarAtendimento
+      } from '../services/validar-eticket.js';
+
+      function showPriorityButtons(show = true) {
+        const keyboard = document.getElementById('virtual-keyboard');
+        const priority = document.getElementById('priority-buttons');
+        if (show) {
+          keyboard.style.display = 'none';
+          keyboard.classList.remove('vk-container');
+          priority.style.display = 'flex';
+          priority.classList.add('flex-column');
+          priority.classList.remove('hidden');
+        } else {
+          keyboard.style.display = 'flex';
+          keyboard.classList.add('vk-container');
+          priority.style.display = 'none';
+          priority.classList.add('hidden');
+        }
+      }
+
+      function setupPriorityButtons({ cpf, paciente_id, data }) {
+        showPriorityButtons(true);
+
+        // Remove listeners antigos
+        const priorityBtns = document.querySelectorAll('#priority-buttons .touch');
+        priorityBtns.forEach(btn => {
+          const newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+        });
+
+        document.querySelectorAll('#priority-buttons .touch').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const prioridade = Number(btn.dataset.type) || 1;
+
+            window.dispatchEvent(new Event('toast-start'));
+            console.log(prioridade)
+
+            // Chama finalizarAtendimento com a prioridade selecionada
+            await finalizarAtendimento(cpf, paciente_id, prioridade);
+
+            window.dispatchEvent(new CustomEvent('modal-show', {
+              detail: {
+                type: 'success',
+                title: 'Senha emitida com sucesso!',
+                message: data && data.exame_inicial.sala_nome ? `Dirija-se à ${data.exame_inicial.sala_nome}` : '',
+                hideCloseButton: false,
+                autoClose: 0,
+                id: 'attendance'
+              }
+            }));
+
+            window.addEventListener('modal-hide', function handler(e) {
+              if (e.detail?.id === 'attendance') {
+                showPriorityButtons(false);
+                location.href = 'index.html';
+                window.removeEventListener('modal-hide', handler);
+              }
+            });
+
+            window.dispatchEvent(new Event('toast-end'));
+          });
+        });
+      }
+
+      function showConfirmPatientModal({ cpf, paciente_id, data, nome }) {
+        setTimeout(() => {
+          const modal = document.querySelector('.modal');
+          if (!modal) return;
+
+          // Cria o container do conteúdo
+          const divContent = document.createElement('div');
+          divContent.className = 'flex-column gap-2 my-3';
+
+          // Adiciona as informações como <p>
+          const pNome = document.createElement('p');
+          pNome.className = 'label';
+          pNome.innerHTML = `<strong>Nome:</strong> ${nome}`;
+          divContent.appendChild(pNome);
+
+          const pCpf = document.createElement('p');
+          pCpf.className = 'label';
+          // Formata o CPF para ###.###.###-##
+          const cpfFormatado = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+          pCpf.innerHTML = `<strong>CPF:</strong> ${cpfFormatado}`;
+          divContent.appendChild(pCpf);
+
+          // Se quiser incluir mais dados, exemplo sala:
+          if (data && data.exame_inicial && data.exame_inicial.sala_nome) {
+            const pSala = document.createElement('p');
+            pSala.className = 'subtitle text-secondary';
+            pSala.innerHTML = `Atendimento inicial ${data.exame_inicial.sala_nome}`;
+            divContent.appendChild(pSala);
+          }
+
+          if (data.exames && data.exames.length > 1) {
+            const pSalaTodas = document.createElement('p');
+            pSalaTodas.className = 'legend';
+            const salas = data.exames.map((item, idx) => {
+              return idx !== 0 ? item.sala_nome : null
+            });
+            pSalaTodas.innerHTML = `Próximos atendimentos: ${salas.join(',')}`;
+            divContent.appendChild(pSalaTodas);
+          }
+
+          // Cria container de botões
+          const btnContainer = document.createElement('div');
+          btnContainer.className = 'modal-btns flex gap-3 justify-center my-3';
+
+          // Botão Confirmar
+          const confirmBtn = document.createElement('button');
+          confirmBtn.textContent = 'Confirmar';
+          confirmBtn.className = 'btn bg-primary text-white';
+          confirmBtn.onclick = () => {
+            window.dispatchEvent(new CustomEvent('modal-hide', { detail: { id: 'confirm-patient' } }));
+            setupPriorityButtons({ cpf, paciente_id, data });
+          };
+
+          // Botão Cancelar
+          const cancelBtn = document.createElement('button');
+          cancelBtn.textContent = 'Cancelar';
+          cancelBtn.className = 'btn border-red bg-transparent text-red';
+          cancelBtn.style.borderWidth = '2px';
+          cancelBtn.style.borderStyle = 'solid';
+          cancelBtn.onclick = () => {
+            window.dispatchEvent(new CustomEvent('modal-hide', { detail: { id: 'confirm-patient' } }));
+            const cpfInput = document.querySelector('input[data-type="cpf"]');
+            if (cpfInput) cpfInput.value = '';
+            cpfInput?.focus();
+          };
+
+          btnContainer.appendChild(cancelBtn);
+          btnContainer.appendChild(confirmBtn);
+
+          // Insere o conteúdo e os botões no modal
+          modal.appendChild(divContent);
+          modal.appendChild(btnContainer);
+        }, 20);
+      }
+
+
+      createCpfInput('cpf-container', async function (cpf) {
+        try {
+          showPriorityButtons(false);
+          window.dispatchEvent(new Event('toast-start'));
+          const paciente = await buscarPaciente(cpf);
+          const validaDeovita = await validarDeovitaPaciente(cpf);
+
+          // CASO 1: PENDÊNCIAS (ainda retorna para index, NÃO mostra botões)
+          if (validaDeovita.pendencias === true) {
+            window.dispatchEvent(new CustomEvent('modal-show', {
+              detail: {
+                type: 'danger',
+                title: 'Verificamos que há algumas pendências em sua assinatura. Retire uma senha e aguarde ser chamado para atendimento.',
+                hideCloseButton: false,
+                autoClose: 0,
+                id: 'attendance'
+              },
+            }));
+
+            window.addEventListener('modal-hide', function handler(e) {
+              if (e.detail?.id === 'attendance') {
+                location.href = 'index.html';
+                window.removeEventListener('modal-hide', handler);
+              }
+            });
+
+            window.dispatchEvent(new Event('toast-end'));
+            return;
+          }
+
+          // CASO 2: PACIENTE ENCONTRADO
+          if (paciente.cod === 1) {
+            const eticket = await validarEticket(paciente.paciente_id);
+
+            // CASO 2A: E-TICKET CONFIRMADO
+            if (eticket.cod === 1 || eticket.cod === 3) {
+              
+              window.dispatchEvent(new CustomEvent('modal-show', {
+                detail: {
+                  type: 'info',
+                  title: 'Confirmação de dados',
+                  hideCloseButton: true,
+                  autoClose: 0,
+                  id: 'confirm-patient'
+                },
+              }));
+
+              // Exibe botões de prioridade (senha) e PARA o fluxo!
+              showConfirmPatientModal({
+                cpf,
+                paciente_id: paciente.paciente_id,
+                data: eticket,
+                nome: paciente.nome
+              });
+              window.dispatchEvent(new Event('toast-end'));
+              return;
+            }
+
+            // --- CASOS QUE NÃO MOSTRAM PRIORIDADE ---
+            // PRÉ-ATENDIMENTO OU OUTROS CASOS:
+            await iniciarPreAtendimento(cpf);
+            const atendimento = await verificarAtendimentoPendente(paciente.paciente_id);
+
+            if (atendimento.cod === 1) {
+              const resultadoValidacao = await validarAtendimentoPendente(paciente.paciente_id);
+
+              if (resultadoValidacao.cod === 1) {
+                // Exibe botões de prioridade aqui também e PARA o fluxo!
+                setupPriorityButtons({ cpf, paciente_id: paciente.paciente_id, data: resultadoValidacao });
+                window.dispatchEvent(new Event('toast-end'));
+                return;
+              }
+
+              // Caso de erro ao retirar pendência
+              window.dispatchEvent(new CustomEvent('modal-show', {
+                detail: {
+                  type: 'danger',
+                  title: resultadoValidacao.mensagem || 'Falha ao retirar da pendência.',
+                  hideCloseButton: false,
+                  autoClose: 0,
+                  id: 'attendance'
+                },
+              }));
+
+              window.addEventListener('modal-hide', function handler(e) {
+                if (e.detail?.id === 'attendance') {
+                  location.href = 'index.html';
+                  window.removeEventListener('modal-hide', handler);
+                }
+              });
+
+              window.dispatchEvent(new Event('toast-end'));
+              return;
+            } else {
+              window.dispatchEvent(new CustomEvent('modal-show', {
+                detail: {
+                  type: 'info',
+                  title: 'Paciente não possui atendimento para hoje. Gere uma senha e se direcione aos guichês.',
+                  hideCloseButton: false,
+                  autoClose: 0,
+                  id: 'attendance'
+                },
+              }));
+
+              window.addEventListener('modal-hide', function handler(e) {
+                if (e.detail?.id === 'attendance') {
+                  location.href = 'index.html';
+                  window.removeEventListener('modal-hide', handler);
+                }
+              });
+
+              window.dispatchEvent(new Event('toast-end'));
+              return;
+            }
+          } else {
+            // PACIENTE NÃO ENCONTRADO
+            window.dispatchEvent(new CustomEvent('modal-show', {
+              detail: {
+                type: 'danger',
+                title: paciente.mensagem,
+                hideCloseButton: false,
+                autoClose: 0,
+                id: 'attendance'
+              },
+            }));
+
+            window.addEventListener('modal-hide', function handler(e) {
+              if (e.detail?.id === 'attendance') {
+                location.href = 'index.html';
+                window.removeEventListener('modal-hide', handler);
+              }
+            });
+
+            window.dispatchEvent(new Event('toast-end'));
+          }
+
+        } catch (error) {
+          // ERRO GERAL
+          console.error('Erro no processo:', error);
+          window.dispatchEvent(new CustomEvent('modal-show', {
+            detail: {
+              type: 'danger',
+              title: 'Erro inesperado ao buscar paciente.',
+              hideCloseButton: false,
+              autoClose: 0,
+              id: 'attendance'
+            },
+          }));
+
+          window.addEventListener('modal-hide', function handler(e) {
+            if (e.detail?.id === 'attendance') {
+              location.href = 'index.html';
+              window.removeEventListener('modal-hide', handler);
+            }
+          });
+
+          window.dispatchEvent(new Event('toast-end'));
+        }
+      });
+
+      const keyboard = enableVirtualKeyboard();
+    </script>
+  </body>
+</html>

@@ -23,13 +23,13 @@ Array.from(touch).forEach((e) => {
         PE: 'PRIORIDADE ESPECIAL OU URGENTE',
       };
 
-      const fila_id = 666;
+      const fila_id = 7;
       const guiche = null;
       const setor = 'Recepção 1';
 
       const prioridade = typeMap[prefix] ?? 'NORMAL';
 
-      const query = fetch('httPE://hom.deovita.com.br/breno/deovita/ambulatorio/atendimento/criar_senha_pre_atendimento', {
+      const query = fetch('https://backoffice.deovita.com.br/deovita_fila_pre/ambulatorio/atendimento/criar_senha_pre_atendimento', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -48,7 +48,6 @@ Array.from(touch).forEach((e) => {
       const content = generateTicketHTML({
         code: ticketGenerated,
         type: prioridade,
-        origin: guiche,
         qrcodeBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAEiAQAAAAB1xeIbAAAB50lEQVR4nO2aTc6bMBiEn7dYYmmk7wA9irlZ1ZuZo+QAlWAZyWi6MOb7q9ouSp2AvYgEeaSMgAzDO5j485q+/AUEjWrUE1GLbWtcHNsHUPa6WrouQXWSJIG/myKr5a+CJGmup+sa1HZ5L73Mvib0fYD8hxir6jo35d5u+LsJVgg3l+rquiJlNnSy0affUv/yF69OSUrA4iDMxe/xkmJVXeen1hxogE6w9MpnYTIzs6GerrNT9uHZyvAzBt1b02nPVkdRr4F+WI1wc+RkOQ1g49Ly/VEUOdtHn1D0kjR3UvQS+IQinRQfVf1zUw6WAcKtl4WbIVizDwlWLMwvVXRdgXLgUw75moYuWYjbHcAABKmKritQm7fjJcIMhLnLxpMzZragR1X/3FSO9tn0VQ67IuXYN78/lMpZ3mFjHqPts7R5Nfs2V9N1esqBFxYEAuVob7CaJmt+fyi1+33KVl/8HoAtbTbPOYYqVl9m9Zv9787f7rWHUq+9FZ2YrM8h08bKuk5PlWtcUimqOpG7rLl5zn+gtt6K1XJvFVnLCLOqrnNT7tOexSXD/3BiecHwdXRdjlr6fYIGTMNqim2OeRj13u/Tu7cTygsMze+Po/beaq+sAAi627b5yOqfl/rYW/1ytd6qUSejfgK7ajEQOaU3YwAAAABJRU5ErkJggg=='
       });
 

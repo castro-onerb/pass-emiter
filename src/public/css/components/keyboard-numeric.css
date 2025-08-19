@@ -1,42 +1,40 @@
 .vk-container {
-  position: fixed;
-  width: 96%;
-  bottom: -400px; /* inicia fora da tela */
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  margin-inline: auto;
   transition: bottom 0.3s ease;
   background: #f9f9f9;
   padding: 8px;
   border-radius: 12px 12px 0 0;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
-  z-index: 10000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.10);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  pointer-events: none; /* evita clique quando escondido */
-}
-
-.vk-container.visible {
-  bottom: 0; /* sobe com transição */
   pointer-events: all;
 }
 
 .vk-row {
   display: flex;
+  flex: 1;
   gap: 8px;
 }
 
-.vk-row button {
+.vk-row button, .vk-row a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-weight: 700;
   flex: 1;
-  height: 80px;
-  font-size: 24px;
+  font-size: 44px;
   border: none;
   background-color: #eee;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  text-decoration: none;
 }
 
-.vk-row button:hover {
+.vk-row button:hover, .vk-row a:hover {
   background-color: #ddd;
 }

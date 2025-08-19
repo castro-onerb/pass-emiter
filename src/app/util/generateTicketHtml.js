@@ -27,9 +27,10 @@ export function generateTicketHTML({ code, type, origin, qrcodeBase64 }) {
         <h1>Senha: ${code}</h1>
         <p>Data: ${date}</p>
         <p>Tipo: ${type}</p>
-        <p>Origem: ${origin}</p>
         <p>Aguarde sua vez</p>
-        ${qrcodeBase64 ? `<img class="qrcode" src="${qrcodeBase64}" alt="QR Code" />` : ''}
+        <p class="margin-inline: auto;">
+          ${qrcodeBase64 ? `<img class="qrcode" src="${qrcodeBase64}" alt="QR Code" />` : ''}
+        </p>
       </div>
       <div class="ticket">
         <div style="height: 20mm;"></div>

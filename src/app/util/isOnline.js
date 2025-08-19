@@ -5,7 +5,7 @@ async function isActuallyOnline() {
 
   try {
     timeout = setTimeout(() => controller.abort(), 3000);
-    const response = await fetch('https://hom.deovita.com.br/breno/deovita/base/BaseController/ping', {
+    const response = await fetch('https://backoffice.deovita.com.br/deovita_fila_pre/base/BaseController/ping', {
       method: 'HEAD',
       cache: 'no-cache',
       signal: controller.signal
@@ -17,17 +17,21 @@ async function isActuallyOnline() {
     if (!online) {
       window.dispatchEvent(new CustomEvent('modal-show', {
         detail: {
+          id: 'connection',
           type: 'error',
           title: 'Está sem internet?',
-          message: error.message || 'Não conseguimos nos conectar a internet.',
+          message: 'Não conseguimos nos conectar à internet.',
           hideCloseButton: false,
-          autoClose: 5
+          autoClose: 5,
+          id: 'connection'
         },
       }));
     }
 
     if (online) {
-      window.dispatchEvent(new CustomEvent('modal-hide'));
+      window.dispatchEvent(new CustomEvent('modal-hide', {
+        detail: { id: 'connection' }
+      }));
     }
   } catch {
     console.log('errado');

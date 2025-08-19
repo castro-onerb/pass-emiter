@@ -20,6 +20,9 @@ export function createCpfInput(containerId, onComplete) {
     input.pattern = '[0-9]*';
     input.maxLength = 1;
     input.classList.add('cpf-digit');
+    
+    if (i === 0) input.focus();
+
     container.appendChild(input);
     inputs.push(input);
   }
@@ -62,4 +65,8 @@ export function createCpfInput(containerId, onComplete) {
       }
     });
   });
+
+  setTimeout(() => {
+    inputs[0].focus();
+  }, 0);
 }

@@ -2,11 +2,12 @@ export class ModalDialog {
   static #backdrop = null;
   static #autoCloseTimeout = null;
 
-  static show({ title = '', message = '', type = null, hideCloseButton = false, autoClose = null } = {}) {
-    if (this.#backdrop) return;
+  static show({ title = '', message = '', type = null, hideCloseButton = false, autoClose = null, id = null } = {}) {
+    if (this.#backdrop && this.#backdrop.dataset.id !== id) return;
 
     const backdrop = document.createElement('div');
     backdrop.classList.add('modal-backdrop');
+    if (id) backdrop.dataset.id = id;
 
     const modal = document.createElement('div');
     modal.classList.add('modal');
@@ -38,30 +39,38 @@ export class ModalDialog {
       modal.appendChild(imgEl);
     }
 
+    modal.appendChild(titleEl);
+    modal.appendChild(messageEl);
+
     if (!hideCloseButton) {
       const closeBtn = document.createElement('button');
       closeBtn.classList.add('modal-button');
       closeBtn.textContent = 'Fechar';
-      closeBtn.addEventListener('click', () => this.hide());
+      closeBtn.dataset.id = id;
+      closeBtn.addEventListener('click', (e) => this.hide({ id: e.currentTarget.dataset.id }));
+      closeBtn.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('modal-hide', { detail: { id } }));
+      });
       modal.appendChild(closeBtn);
     }
 
-    if (autoClose && typeof autoClose === 'number') {
+    if (autoClose !== null && Number.isFinite(autoClose) && autoClose > 0) {
       this.#autoCloseTimeout = setTimeout(() => {
-        this.hide();
+        window.dispatchEvent(new CustomEvent('modal-hide', { detail: { id } }));
       }, autoClose * 1000);
     }
-
-    modal.appendChild(titleEl);
-    modal.appendChild(messageEl);
     backdrop.appendChild(modal);
     document.body.appendChild(backdrop);
 
     this.#backdrop = backdrop;
   }
 
-  static hide() {
+  static hide({ id = null } = {}) {
     if (!this.#backdrop) return;
+
+    // Se houver um id, só fecha se bater com o que está no modal atual
+    if (id && this.#backdrop.dataset.id !== id) return;
+
     if (this.#autoCloseTimeout) {
       clearTimeout(this.#autoCloseTimeout);
       this.#autoCloseTimeout = null;
@@ -75,6 +84,11 @@ export class ModalDialog {
     window.addEventListener('modal-show', (e) => {
       this.show(e.detail);
     });
-    window.addEventListener('modal-hide', () => this.hide());
+
+    window.addEventListener('modal-hide', (e) => {
+      const id = e.detail?.id ?? null;
+      this.hide({ id });
+    });
   }
+
 }

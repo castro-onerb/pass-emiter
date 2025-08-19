@@ -1,5 +1,9 @@
 @import './_variables.css';
 
+.bg-transparent {
+  background-color: transparent;
+}
+
 .bg-primary {
   background-color: var(--color-primary);
 }
@@ -14,13 +18,19 @@
   color: var(--color-primary);
 }
 
-
 .bg-secondary {
   background-color: var(--color-secondary);
+}
+.bg-secondary-light {
+  background-color: var(--color-secondary-light);
 }
 
 .text-secondary {
   color: var(--color-secondary);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
 }
 
 .bg-blue {

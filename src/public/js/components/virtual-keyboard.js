@@ -2,34 +2,25 @@ export function enableVirtualKeyboard(targetSelector = '.cpf-digit') {
   const keyboard = document.getElementById('virtual-keyboard');
   const keys = keyboard.querySelectorAll('button');
   let focusedInput = null;
-  let hideTimeout = null;
-
-  function showKeyboard() {
-    clearTimeout(hideTimeout);
-    keyboard.classList.add('visible');
-  }
-
-  function hideKeyboard() {
-    hideTimeout = setTimeout(() => {
-      keyboard.classList.remove('visible');
-    }, 150);
-  }
 
   document.querySelectorAll(targetSelector).forEach(input => {
     input.addEventListener('focus', () => {
       focusedInput = input;
-      showKeyboard();
-    });
-
-    input.addEventListener('blur', () => {
-      hideKeyboard();
     });
   });
 
   // Clica nos botões
   keys.forEach(key => {
     key.addEventListener('click', () => {
-      if (!focusedInput) return;
+      if (!focusedInput) {
+        const all = Array.from(document.querySelectorAll(targetSelector));
+        if (all.length > 0) {
+          focusedInput = all[0];
+          focusedInput.focus();
+        } else {
+          return;
+        }
+      }
 
       const value = key.getAttribute('data-key');
 
@@ -51,11 +42,7 @@ export function enableVirtualKeyboard(targetSelector = '.cpf-digit') {
 
       if (value.match(/[0-9]/)) {
         focusedInput.value = value;
-        const all = Array.from(document.querySelectorAll(targetSelector));
-        const i = all.indexOf(focusedInput);
-        if (i < all.length - 1) {
-          all[i + 1].focus();
-        }
+        focusedInput.dispatchEvent(new Event('input', { bubbles: true }));
       }
     });
   });

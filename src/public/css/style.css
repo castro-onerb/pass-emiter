@@ -53,6 +53,11 @@ input, textarea {
   width: 100%;
 }
 
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
 .flex {
   display: flex;
 }
